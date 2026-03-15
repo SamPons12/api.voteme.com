@@ -1,6 +1,39 @@
 import { getDB } from "../config/db.js"
 
 export const Edition = {
+  deleteEdition: async (id) => {
+    try {
+      const db = await getDB();
+      const [result] = await db.execute(
+        'DELETE FROM voting_periods WHERE voting_period_id = ?',
+        [id]
+      );
+      return result
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  updateEdition: async (id, data) => {
+    try {
+      const {name, startDate, endDate, isOpen} = data;
+      
+      const db = await getDB();
+
+      const [result] = await db.execute(
+        `UPDATE voting_periods
+         SET name = ?,
+             start_date = ?,
+             end_date = ?,
+             is_open = ?
+         WHERE voting_period_id = ?;`,
+         [name, startDate, endDate, isOpen, id]
+      );
+
+      return result
+    } catch (err) {
+      console.log(err)
+    }
+  },
   getAllEditions: async () => {
     try {
       const db = await getDB();
