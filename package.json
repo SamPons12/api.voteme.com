@@ -1,0 +1,24 @@
+{
+  "name": "api.voteme.com",
+  "version": "1.0.0",
+  "description": "Api con express",
+  "license": "ISC",
+  "author": "Sam Pons de la Fuente",
+  "type": "module",
+  "main": "./src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch ./src/app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.17.4"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6"
+  }
+}
