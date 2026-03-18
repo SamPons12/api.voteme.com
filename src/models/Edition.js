@@ -1,6 +1,21 @@
 import { getDB } from "../config/db.js"
 
 export const Edition = {
+  createEdition: async (data) => {
+    try {
+      const {name, startDate, endDate, isOpen} = data;
+      const db = await getDB();
+
+      const [result] = await db.execute(
+        `INSERT INTO voting_periods(name, start_date, end_date, is_open)
+         VALUES(?, ?, ?, ?)`,
+         [name, startDate, endDate, isOpen]
+      );
+      return result;
+    } catch (err) {
+      console.log(err)      
+    }
+  },
   deleteEdition: async (id) => {
     try {
       const db = await getDB();
@@ -38,8 +53,14 @@ export const Edition = {
     try {
       const db = await getDB();
       const [result] = await db.execute(
-        'SELECT * FROM voting_periods'
+        `SELECT  voting_period_id, name, 
+         DATE_FORMAT(start_date, "%Y-%m-%d") AS start_date, 
+         DATE_FORMAT(end_date, "%Y-%m-%d") AS end_date, is_open, 
+         total_categories,
+         total_nominees
+         FROM voting_periods_view `
       );
+      console.log(result)
       return result;
     } catch (err) {
       console.log(err)
@@ -55,7 +76,7 @@ export const Edition = {
         ON vp.voting_period_id = nc.voting_period_id
         INNER JOIN categories AS c
         ON nc.category_id = c.category_id
-        WHERE vp.is_open = 1`
+        WHERE vp.is_open = 1 AND c.enabled = 1`
       );
       return result
     } catch (err) {

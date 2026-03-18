@@ -6,7 +6,7 @@ export const Category = {
       const db = await getDB();
 
       const [categories] = await db.execute(
-        'SELECT * FROM categories'
+        'SELECT * FROM categories_view'
       )
 
       return categories
