@@ -14,7 +14,7 @@ await connectDB();
 
 app.use(express.json())
 app.use(cors({
-  origin: 'http://devlafuente.es',
+  origin: 'https://devlafuente.es',
   credentials: true
 }))
 app.use('/uploads', express.static('uploads'))
