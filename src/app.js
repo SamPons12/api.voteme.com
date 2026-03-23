@@ -14,6 +14,7 @@ await connectDB();
 
 app.use(express.json())
 app.use(cors())
+app.use('/uploads', express.static('uploads'))
 
 app.use('/auth', authRoutes)
 app.use('/editions', editionsRouter)
