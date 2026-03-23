@@ -12,11 +12,11 @@ const app = express()
 
 await connectDB();
 
-app.use(express.json())
 app.use(cors({
   origin: ['https://devlafuente.es', 'https://www.devlafuente.es'],
   credentials: true
 }))
+app.use(express.json())
 app.use('/uploads', express.static('uploads'))
 
 app.use('/auth', authRoutes)
