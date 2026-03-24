@@ -1,5 +1,6 @@
 import { Nominee } from "../models/Nominee.js";
 import { logger } from "../utils/logger.js";
+import { uploadImage, deleteImage } from "../config/cloudinary.js";
 
 export const nomineesController = {
   getAllNominees: async (req, res) => {
@@ -31,10 +32,14 @@ export const nomineesController = {
   createNominee: async (req, res) => {
     try {
       const { name, description } = req.body;
-      const image_url = req.file ? `/uploads/nominees/${req.file.filename}` : null;
 
       if (!name) {
         return res.status(400).json({ ok: false, message: "Name is required" });
+      }
+
+      let image_url = null;
+      if (req.file) {
+        image_url = await uploadImage(req.file.buffer);
       }
 
       const result = await Nominee.create({ name, description, image_url });
@@ -54,10 +59,19 @@ export const nomineesController = {
     try {
       const nomineeId = req.params.nomineeId;
       const { name, description, enabled } = req.body;
-      const image_url = req.file ? `/uploads/nominees/${req.file.filename}` : undefined;
 
       if (!name) {
         return res.status(400).json({ ok: false, message: "Name is required" });
+      }
+
+      let image_url = undefined;
+      if (req.file) {
+        // Delete old image from Cloudinary if exists
+        const existing = await Nominee.getNomineeById(nomineeId);
+        if (existing?.image_url) {
+          await deleteImage(existing.image_url);
+        }
+        image_url = await uploadImage(req.file.buffer);
       }
 
       const result = await Nominee.update(nomineeId, { name, description, enabled, image_url });
@@ -76,6 +90,13 @@ export const nomineesController = {
   deleteNominee: async (req, res) => {
     try {
       const nomineeId = req.params.nomineeId;
+
+      // Delete image from Cloudinary if exists
+      const existing = await Nominee.getNomineeById(nomineeId);
+      if (existing?.image_url) {
+        await deleteImage(existing.image_url);
+      }
+
       const result = await Nominee.delete(nomineeId);
 
       if (result.affectedRows > 0) {
