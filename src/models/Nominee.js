@@ -132,7 +132,9 @@ export const Nominee = {
         ON ecn.edition_category_id = ec.edition_category_id
         INNER JOIN categories AS c
         ON ec.category_id = c.category_id
-        WHERE c.category_id = ?`,
+        INNER JOIN editions AS e
+        ON ec.edition_id = e.edition_id
+        WHERE c.category_id = ? AND e.is_open = 1`,
          [categoryId]
       );
       return nominees;
