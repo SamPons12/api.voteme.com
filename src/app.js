@@ -14,10 +14,10 @@ await connectDB();
 
 app.use(cors())
 app.use(express.json(
-  // {
-  //   origin: ['https://devlafuente.es', 'https://www.devlafuente.es'],
-  //   credentials: true
-  // }
+  {
+    origin: ['https://devlafuente.es', 'https://www.devlafuente.es'],
+    credentials: true
+  }
 ))
 
 app.use('/auth', authRoutes)
