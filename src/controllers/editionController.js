@@ -57,7 +57,7 @@ export const editionController = {
         };
       const result = await Edition.updateEdition(id, data);
 
-      if (result.changedRows !== 0) {
+      if (result.affectedRows !== 0) {
         logger.info(`Edition updated: ${id}`);
         return res.status(200).json({ ok: true, message: "Edition updated correctly" });
       }
