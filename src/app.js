@@ -6,12 +6,15 @@ import categoriesRoutes from './routes/categories.js';
 import nomineesRoutes from './routes/nominees.js';
 import votesRouter from './routes/votes.js';
 import editionsRouter from './routes/editions.js';
+import helmet from 'helmet';
+import compression from 'compression';
 
 const PORT = 5011;
 const app = express()
 
 await connectDB();
 
+app.disable('x-powered-by')
 app.use(cors())
 app.use(express.json(
   {
@@ -19,6 +22,8 @@ app.use(express.json(
     credentials: true
   }
 ))
+app.use(helmet());
+app.use(compression());
 
 app.use('/auth', authRoutes)
 app.use('/editions', editionsRouter)
