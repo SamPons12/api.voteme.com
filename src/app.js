@@ -13,7 +13,12 @@ const app = express()
 await connectDB();
 
 app.use(cors())
-app.use(express.json())
+app.use(express.json(
+  {
+    origin: process.env.APP_APP_URL.split(', '),
+    credentials: true
+  }
+))
 
 app.use('/auth', authRoutes)
 app.use('/editions', editionsRouter)

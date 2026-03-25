@@ -81,7 +81,7 @@ export const Vote = {
        ON ecn.edition_category_id = ec.edition_category_id
        INNER JOIN editions AS e
        ON ec.edition_id = e.edition_id
-       WHERE v.user_id = ? AND e.is_open = 1`, 
+       WHERE v.user_id = ? AND e.status = 'open'`, 
        [userId]
     )
     return result;
