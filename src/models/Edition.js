@@ -3,13 +3,13 @@ import { getDB } from "../config/db.js"
 export const Edition = {
   createEdition: async (data, categoryIds = []) => {
     try {
-      const {name, startDate, endDate, isOpen} = data;
+      const {name, startDate, endDate, status} = data;
       const db = await getDB();
 
       const [result] = await db.execute(
-        `INSERT INTO editions(name, start_date, end_date, is_open)
+        `INSERT INTO editions(name, start_date, end_date, status)
          VALUES(?, ?, ?, ?)`,
-         [name, startDate, endDate, isOpen]
+         [name, startDate, endDate, status]
       );
 
       // Get the UUID that was just created
@@ -48,7 +48,7 @@ export const Edition = {
   },
   updateEdition: async (id, data) => {
     try {
-      const {name, startDate, endDate, isOpen} = data;
+      const {name, startDate, endDate, status} = data;
       
       const db = await getDB();
 
@@ -57,9 +57,9 @@ export const Edition = {
          SET name = ?,
              start_date = ?,
              end_date = ?,
-             is_open = ?
+             status = ?
          WHERE edition_id = ?;`,
-         [name, startDate, endDate, isOpen, id]
+         [name, startDate, endDate, status, id]
       );
 
       return result
@@ -73,7 +73,7 @@ export const Edition = {
       const [result] = await db.execute(
         `SELECT  edition_id, name, 
          DATE_FORMAT(start_date, "%Y-%m-%d") AS start_date, 
-         DATE_FORMAT(end_date, "%Y-%m-%d") AS end_date, is_open, 
+         DATE_FORMAT(end_date, "%Y-%m-%d") AS end_date, status, 
          total_categories,
          total_nominees
          FROM editions_view `
@@ -94,7 +94,7 @@ export const Edition = {
         ON e.edition_id = ec.edition_id
         INNER JOIN categories AS c
         ON ec.category_id = c.category_id
-        WHERE e.is_open = 1 AND c.enabled = 1;`
+        WHERE e.status = 1 AND c.enabled = 1;`
       );
       return result
     } catch (err) {

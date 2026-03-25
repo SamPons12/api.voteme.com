@@ -15,7 +15,7 @@ export const editionController = {
         name: payload.editionName,
         startDate: payload.selectedRange.from,
         endDate: payload.selectedRange.to,
-        isOpen: payload.isOpen,
+        status: payload.status,
       };
       const result = await Edition.createEdition(data, categoryIds);
 
@@ -53,7 +53,7 @@ export const editionController = {
           name: payload.editionName,
           startDate: payload.selectedRange.from,
           endDate: payload.selectedRange.to,
-          isOpen: payload.isOpen,
+          status: payload.status,
         };
       const result = await Edition.updateEdition(id, data);
 

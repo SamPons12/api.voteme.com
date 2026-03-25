@@ -18,7 +18,7 @@ app.disable('x-powered-by')
 app.use(cors())
 app.use(express.json(
   {
-    origin: ['https://devlafuente.es', 'https://www.devlafuente.es'],
+    origin: process.env.APP_APP_URL.split(', '),
     credentials: true
   }
 ))
