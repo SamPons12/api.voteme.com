@@ -15,7 +15,7 @@ await connectDB();
 app.use(cors())
 app.use(express.json(
   {
-    origin: process.env.APP_APP_URL.split(', '),
+    origin: process.env.CLIENT_APP_URL,
     credentials: true
   }
 ))

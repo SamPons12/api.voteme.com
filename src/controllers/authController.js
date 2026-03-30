@@ -2,6 +2,7 @@ import { User } from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken'
 import { logger } from '../utils/logger.js';
+import { mailController } from "./mailController.js";
 
 export const authController = {
   register: async (req, res, next) => {
@@ -17,8 +18,11 @@ export const authController = {
       }
 
       const hashPassword = await bcrypt.hash(password, 10)
-      const user = await User.create(email, hashPassword)
+      const verificationToken = crypto.randomUUID().toString();
+      const user = await User.create(email, hashPassword, verificationToken);
       if (user) {
+        await mailController.sendVerificationEmail(email, verificationToken);
+
         logger.info(`Usuario registrado: ${email}`);
         return res.status(201).json({
           ok: true,
@@ -53,6 +57,27 @@ export const authController = {
     } catch (error) {
       logger.error(`Login error: ${error.message}`);
       return res.status(500).json({ok: false, message: "Error al iniciar sesión"});
+    }
+  },
+  verifyEmail: async (req, res) => {
+    try {
+      const { token } = req.query;
+      if (!token) {
+        return res.status(400).json({ ok: false, message: "Token de verificación es requerido" });
+      }
+
+      const user = await User.findByVerificationToken(token);
+      if (!user) {
+        return res.status(400).json({ ok: false, message: "Token de verificación inválido" });
+      }
+
+      await User.verifyEmail(user.user_id);
+
+      logger.info(`Email verificado: ${user.email}`);
+      return res.status(200).json({ ok: true, message: "Email verificado correctamente" });
+    } catch (error) {
+      logger.error(`Email verification error: ${error.message}`);
+      return res.status(500).json({ ok: false, message: "Error al verificar email" });
     }
   }
 }
