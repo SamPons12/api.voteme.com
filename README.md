@@ -23,7 +23,7 @@ npm install
 #### Create and fill .env file
 ``` bash
 APP_NAME=Vote4Me
-APP_APP_URL="http://localhost:5174, http://www.localhost:5173"
+APP_APP_URL="http://localhost:5173"
 APP_API_URL=http://localhost:3000/api  
 
 DB_HOST=localhost
@@ -31,11 +31,18 @@ DB_USER=root
 DB_PWD=
 DB_NAME=voteme
 
-CLOUDINARY_CLOUD_NAME=dhitz18wt
-CLOUDINARY_API_KEY=582423451886265
-CLOUDINARY_API_SECRET=yFwHWogdE5NG3EKXXoXtqfCQC4g
+CLOUDINARY_CLOUD_NAME="name"
+CLOUDINARY_API_KEY="key"
+CLOUDINARY_API_SECRET="my secret"
 
-JWT_SECRET=d8f9A!s9F2kLx@Pq7R0m#ZcV4wE1TnY
+MAILGUN_API_KEY="key"
+MAILGUN_DOMAIN="example.com"
+MAILGUN_FROM="Vote4Me <no-reply@example.com>"
+
+CLOUDFLARE_SITEVERIFY_URL="https://challenges.cloudflare.com/turnstile/v0/siteverify"
+TURNSTILE_SECRET_KEY="key"
+
+JWT_SECRET="my secret"
 ```
 >**Note:** This .env content it's an example, fill with your data
 
@@ -47,4 +54,4 @@ npm run dev
 
 ## Contact
 
-Email: sampf2006@gmail.com
+Email: sam@devlafuente.es
