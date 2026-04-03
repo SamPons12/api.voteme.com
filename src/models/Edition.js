@@ -44,6 +44,7 @@ export const Edition = {
       return result
     } catch (err) {
       console.log(err)
+      throw err
     }
   },
   updateEdition: async (id, data) => {
@@ -65,6 +66,7 @@ export const Edition = {
       return result
     } catch (err) {
       console.log(err)
+      throw err
     }
   },
   getAllEditions: async () => {
@@ -82,6 +84,7 @@ export const Edition = {
       return result;
     } catch (err) {
       console.log(err)
+      throw err
     }
   },
   getActiveEditionCategories: async () => {
@@ -99,6 +102,7 @@ export const Edition = {
       return result
     } catch (err) {
       console.log(err)
+      throw err
     }
   },
   // Get categories for a specific edition
