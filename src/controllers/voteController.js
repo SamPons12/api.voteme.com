@@ -14,6 +14,11 @@ export const voteController = {
   saveVotes: async (req, res) => {
     const votes = req.body.votes
     const userId = req.user.userId
+
+    const userVoted = await Vote.hasUserVoted(userId);
+    if (userVoted?.[0]) {
+      return res.status(400).json({ok: false, message: "User has already voted"});
+    }
     try {
       await Vote.saveVotes(userId, votes);
       return res.status(201).json({ok: true, message: "Votes saved successfully"});
