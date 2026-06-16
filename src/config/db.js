@@ -12,6 +12,7 @@ export async function connectDB() {
       user: process.env.DB_USER,
       password: process.env.DB_PWD,
       database: process.env.DB_NAME,
+      connectTimeout: 10000,
     })
 
     console.log('Conexión base de datos exitosa')
