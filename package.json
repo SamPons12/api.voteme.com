@@ -20,7 +20,7 @@
     "jsonwebtoken": "^9.0.3",
     "mailgun.js": "^12.7.1",
     "multer": "^2.1.1",
-    "mysql2": "^3.17.4"
+    "mysql2": "^3.22.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.6"
