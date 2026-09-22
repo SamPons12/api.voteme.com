@@ -105,15 +105,43 @@ export const Edition = {
       throw err
     }
   },
+  getLastEditionCategories: async () => {
+    try {
+      const db = await getDB();
+      const [categories] = await db.execute(
+        `
+         SELECT c.*
+         FROM categories AS c
+         INNER JOIN editions_categories AS ec
+         ON c.category_id = ec.category_id
+         INNER JOIN editions AS e
+         ON ec.edition_id = e.edition_id
+         INNER JOIN (
+         	SELECT edition_id
+            FROM editions
+            WHERE status != 'draft'
+            ORDER BY start_date DESC
+            LIMIT 1
+         ) AS last_edition ON e.edition_id = last_edition.edition_id;
+        `
+      );
+      return categories;
+    } catch (err) {
+      console.log(err)
+      throw err;
+    }
+  },
   // Get categories for a specific edition
-  getEditionCategories: async (editionId) => {
+  getEditionCategories: async (editionId ) => {
     try {
       const db = await getDB();
       const [result] = await db.execute(
         `SELECT ec.edition_category_id, ec.category_id, c.name, c.description
          FROM editions_categories AS ec
          INNER JOIN categories AS c ON ec.category_id = c.category_id
-         WHERE ec.edition_id = ?`,
+         WHERE ec.edition_id = ?
+         LIMIT 1;
+         `,
         [editionId]
       );
       return result;

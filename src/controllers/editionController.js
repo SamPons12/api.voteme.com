@@ -17,6 +17,7 @@ export const editionController = {
         endDate: payload.selectedRange.to,
         status: payload.status,
       };
+      console.log(data.status)
       const result = await Edition.createEdition(data, categoryIds);
 
       if (result.affectedRows !== 0) {
@@ -85,10 +86,20 @@ export const editionController = {
       return res.status(500).json({ ok: false, message: "Error fetching categories" });
     }
   },
+  //Get all categories from last edition
+  getLastEditionCategories: async (req, res) => {
+    try {
+      const categories = await Edition.getLastEditionCategories();
+      return res.status(200).json({ok: true, data: categories});
+    } catch (err) {
+      logger.error(`Get last edition categories error: ${err.message}`);
+      return res.status(500).json({ ok: false, message: "Error fetching categories" });
+    }
+  },
   // Get all categories for a specific edition
   getEditionCategories: async (req, res) => {
     try {
-      const editionId = req.params.editionId;
+      const editionId = req.params?.editionId;
       const categories = await Edition.getEditionCategories(editionId);
       return res.status(200).json({ ok: true, data: categories });
     } catch (err) {

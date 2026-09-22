@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/', verifyToken, isAdmin, editionController.getAllEditions)
 router.post('/', verifyToken, isAdmin, editionController.createEdition)
 router.get('/active/categories', verifyToken, editionController.getActiveEditionCategories)
+router.get('/categories', editionController.getLastEditionCategories)
 router.get('/:editionId/categories', verifyToken, isAdmin, editionController.getEditionCategories)
 router.get('/:editionId/available-categories', verifyToken, isAdmin, editionController.getAvailableCategoriesForEdition)
 router.get('/:editionCategoryId/nominees', verifyToken, isAdmin, editionController.getEditionCategoryNominees)
